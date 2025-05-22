@@ -1,6 +1,7 @@
 ### Library Management
 
 This is test frappe project to see some frappe framework features.
+The test project is librabry management system.
 
 ### Installation
 
