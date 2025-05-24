@@ -1,0 +1,27 @@
+<div class="list-group-item list-group-item-action flex-column align-items-start py-3">
+  <div class="d-flex w-100">
+    <!-- Image section -->
+    <div class="mr-3" style="flex: 0 0 80px;">
+      <img src="{{ doc.image }}" alt="{{ doc.title }}" class="img-thumbnail rounded" style="width: 80px; height: 80px; object-fit: cover;">
+    </div>
+
+    <!-- Content section -->
+    <div class="flex-grow-1">
+      <h5 class="mb-1">
+        <a href="{{ doc.route }}" class="text-dark font-weight-bold">
+          <i class="fa fa-book mr-2 text-primary"></i> {{ doc.name }}
+        </a>
+      </h5>
+
+      <p class="mb-1 text-muted">{{ doc.author or 'Unknown Author' }}</p>
+
+      {% if doc.status == 'Available' %}
+        <span class="badge badge-success">Available</span>
+      {% elif doc.status == 'Issued' %}
+        <span class="badge badge-danger">Issued</span>
+      {% else %}
+        <span class="badge badge-secondary">{{ doc.status }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
