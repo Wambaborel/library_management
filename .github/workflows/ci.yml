@@ -1,5 +1,8 @@
 
-name: CI
+name: CI for Library Management
+description: |
+  This workflow runs tests for the Library Management application on pushes to the `develop` branch and on pull requests.
+  It sets up a testing environment with Redis, MariaDB, and Python, installs dependencies, and runs the tests in a Frappe Bench instance (containerized).
 
 on:
   push:
@@ -7,17 +10,21 @@ on:
       - develop
   pull_request:
 
-concurrency:
+concurrency: 
+  # This concurrency group ensures that only one workflow for the same pull request runs at a time.
+  # If a new commit is pushed to the same pull request, the previous workflow will be cancelled.
   group: develop-library_management-${{ github.event.number }}
   cancel-in-progress: true
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
+  tests: 
+    # This job runs the tests in a containerized environment with Redis, MariaDB, and Python.
+    runs-on: ubuntu-latest 
     strategy:
+      # This strategy allows the job to run on multiple operating systems if needed.
       fail-fast: false
     name: Server
-
+    # Define the services that will be used in the job.
     services:
       redis-cache:
         image: redis:alpine
@@ -34,7 +41,7 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mariadb-admin ping" --health-interval=5s --health-timeout=2s --health-retries=3
-
+    # Define the steps that will be executed in the job.      
     steps:
       - name: Clone
         uses: actions/checkout@v3
